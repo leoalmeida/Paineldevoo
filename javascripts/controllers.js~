@@ -1,0 +1,119 @@
+/* global angular */
+
+'use strict';
+
+var myVersion = 1;
+var OBJECT_STORE_ITEMS = 'items';
+var OBJECT_STORE_CONTROL = 'controle-diario';
+
+var dashboardDbControllers = angular.module('dashboardDbControllers', ['ngResource', 'xc.indexedDB']);
+
+dashboardDbControllers.config(function ($indexedDBProvider) {
+	$indexedDBProvider
+      .connection('dashboard-localdb')
+      .upgradeDatabase(myVersion, function(event, db, tx){
+      		if(!db.objectStoreNames.contains(OBJECT_STORE_ITEMS)) {
+      			var osItemsDashboard = db.createObjectStore(OBJECT_STORE_ITEMS, { keyPath: "id", autoIncrement:true});
+      			//osTipoDocumentos.createIndex("formato_idx", "tipo", { unique: false });
+      		}
+      		if(!db.objectStoreNames.contains(OBJECT_STORE_CONTROL)) {
+      			var osControlDashboard = db.createObjectStore(OBJECT_STORE_CONTROL, { keyPath: "id"});
+      			//osTipoDocumentos.createIndex("formato_idx", "tipo", { unique: false });
+      		}
+      });
+});
+
+dashboardDbControllers.controller('DashboardCtrl', ['$scope', '$indexedDB', 
+		function($scope,  $indexedDB) {
+			
+	var itemsObjectStore = $indexedDB.objectStore(OBJECT_STORE_ITEMS);
+	//var controlObjectStore = $indexedDB.objectStore(OBJECT_STORE_CONTROL);
+	
+	var controleSelecao = [];
+	var iconList = [];	
+	
+	init();	
+	
+	function buscaItems() {
+		
+		itemsObjectStore.getAll().then(function(itemsList) {  
+		//persistanceService.buscaImoveis().then(function(imoveisList) {
+			$scope.listViewItems = itemsList;
+			angular.forEach(itemsList, function(item) {
+				this.push(0);
+			}, controleSelecao);
+			$scope.controleSelecao = controleSelecao;			
+			for (var i=33; i<=126; i++) iconList.push(String.fromCharCode(i));
+			$scope.iconList = iconList;
+			$scope.item.icone = iconList[33];
+		});		
+				
+		
+		/*controlObjectStore.getAll().then(function(controlList) {
+			$scope.listViewControl = controlList;
+		}*/
+	};
+	
+	
+	function init() {
+				
+		itemsObjectStore.clear();
+		itemsObjectStore
+			.insert({"nome": "ALIMENTAÇÃO",
+				"icone": "glyphicon rio-gig-cuttlery",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "TAXI",
+				"icone": "glyphicon rio-gig-taxi",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "BRT",
+				"icone": "glyphicon rio-gig-brt-fill",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "METRÔ",
+				"icone": "glyphicon rio-gig-metro-fill",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "BANHEIROS",
+				"icone": "glyphicon rio-gig-bottles",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "AÉREAS",
+				"icone": "glyphicon rio-gig-plane-up",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "LOJAS",
+				"icone": "glyphicon rio-gig-shopping",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "CARRINHOS",
+				"icone": "glyphicon rio-gig-cart",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "WHATSAPP",
+				"icone": "glyphicon rio-gig-whatsapp",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "MEDICAMENTO",
+				"icone": "glyphicon rio-gig-pill",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "TELEFONES",
+				"icone": "glyphicon rio-gig-phone-fill",
+				"updated":new Date()});
+		itemsObjectStore
+			.insert({"nome": "RECLAMAÇÕES",
+				"icone": "glyphicon rio-gig-smile-sad",
+				"updated":new Date()});		
+	};
+	
+	if($indexedDB.onDatabaseError) {
+		$location.path('/unsupported');
+	} else {
+		buscaItems();
+		$('#selectBox').selectator();
+	};
+			
+}]);
+

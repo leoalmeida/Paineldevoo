@@ -1,0 +1,32 @@
+
+.navbar-header img { max-height: 50px } /** Or the width you want to associate **/
+
+.footer img { max-height: 60px } /** Or the width you want to associate **/
+
+body {
+-webkit-font-smoothing: antialiased;
+
+/* padding top by nav height */
+padding-top: 60px;
+
+/* Margin bottom by footer height */
+margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  max-height: 60px;
+}
+
+.ciaaerea {
+	content: "";
+	
+	background-position:center center;
+	background-repeat:no-repeat;
+	background-size:contain; /* you change this to "contain" if you don't want the images to be cropped */
+	
+	z-index: -1;     
+}

@@ -1,0 +1,22 @@
+		<div ng-repeat="item in flightList | filter: filter " class="dashboard col-xs-6 col-sm-4 col-md-3 col-lg-2">
+			<!-- <div ng-repeat="item in listViewItems | itemFilter | filter: filter | orderBy: sortBy" class="square img1"> -->
+			<div class="square img1"  ng-click="controleSelecao[$index] = controleSelecao[$index] + 1" >
+			        <div class="content">
+				    <div class="table">
+				        <div class="table-cell numbers">				        	
+				        	<span class="fa-stack fa-2x">
+						    <i class="fa fa-comment fa-stack-1x"></i>
+						    <strong class="fa-stack-1x fa-stack-text">{{controleSelecao[$index]}}</strong>						    
+						</span>						
+						<div class="title">
+					        <i class="{{item.icone}}"></i>
+					        </div>
+					        <div class="title">
+				        		<h4>{{item.nome}}</h4>
+					        </div>				        	
+				        </div>
+				    </div>
+			        </div>
+			    
+			</div>
+		</div>

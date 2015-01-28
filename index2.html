@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="listavooDbApp">
+<head>
+    <meta charset="utf-8">	
+    <base href="/listavoo/index.html">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dashboard RIOgale&atilde;o</title>
+ 
+    <link rel="apple-touch-icon" sizes="57x57" href="./favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-touch-icon-152x152.png">
+    <link rel="icon" type="image/png" href="./favicon/favicon-196x196.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="./favicon/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="./favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="./favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="./favicon/favicon-32x32.png" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./favicon/mstile-144x144.png">
+    
+    <link rel="stylesheet" href="./stylesheets/bootstrap.min.css" type="text/css">    
+    <link rel="stylesheet" href="./stylesheets/gig.css" type="text/css"  media='all' >
+    <link rel='stylesheet' href='./fonts/Odebrecht_Sans/stylesheet.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='./fonts/Open_Sans_Condensed/stylesheet.css' type='text/css' media='all' />    
+    <link rel="stylesheet" href="./stylesheets/screen.css" type="text/css" >
+    <link rel="stylesheet" href="./stylesheets/mostrador.css" type="text/css" >
+    
+    
+</head>
+<body data-ng-controller="listaVoosCtrl">
+  <div class="panel panel-default" >
+      <!-- Default panel contents -->
+      <div class="panel-heading header">
+        <div class="row">
+          <div class="col-xs-2 col-md-2" align="left">     
+              <img class="img-responsive" src="./images/logo.png"/>
+          </div>
+          <div class="col-xs-1 col-md-1">
+              <i class="glyphicon rio-gig-plane-fill-arrival-floor"></i>
+          </div>
+          <div class="col-xs-3 col-md-3">
+              <div class="title animate-switch-container" ng-switch on="selectedLang">                  
+                  <div class="animate-switch" ng-switch-when="es">{{entidade.chegada.es}}</div>
+                  <div class="animate-switch" ng-switch-when="en">{{entidade.chegada.en}}</div>
+                  <div class="animate-switch" ng-switch-default>{{entidade.chegada.pt}}</div>          
+              </div>
+          </div>           
+      </div>
+      <!-- Table -->
+      <table class="table table-striped table-hover" id="accordion" ng-init="cliente=true">
+      <thead>
+        <tr class="success animate-switch-container" ng-switch on="selectedLang">
+          <th class="col-xs-2 col-sm-2">
+            <a data-ng-click="sortBy='horavoo'; reverse=!reverse" role="button">
+            <div class="animate-switch" ng-switch-default>{{titulo.horavoo.pt}}</div>
+            <div class="animate-switch" ng-switch-when="en">{{titulo.horavoo.en}}</div>
+            </a><a data-ng-show="sortBy=='horavoo'" data-ng-click="sortBy=''" class="glyphicon rio-gig-x"></a></div>
+            
+          </th>
+          <th class="col-xs-2 col-sm-2">					
+            <a data-ng-click="sortBy='destino'; reverse=!reverse" role="button">
+            <div class="animate-switch" ng-switch-default>{{titulo.destino.pt}}</div>
+            <div class="animate-switch" ng-switch-when="en">{{titulo.destino.en}}</div>
+            </a><a data-ng-show="sortBy=='destino'" data-ng-click="sortBy=''" class="glyphicon rio-gig-x"></a>
+          </th>
+          <th class="col-xs-1 col-sm-1">
+            <a data-ng-click="sortBy='ciaaerea'; reverse=!reverse" role="button">
+            <div class="animate-switch" ng-switch-default>{{titulo.cia.pt}}</div>
+            <div class="animate-switch" ng-switch-when="en">{{titulo.cia.en}}</div>
+            </a><a data-ng-show="sortBy=='ciaaerea'" data-ng-click="sortBy=''" class="glyphicon rio-gig-x"></a>				
+          </th>
+          <th class="col-xs-1 col-sm-1">
+            <a data-ng-click="sortBy='numerovoo'; reverse=!reverse" role="button">
+            <div class="animate-switch" ng-switch-default>{{titulo.numvoo.pt}}</div>
+            <div class="animate-switch" ng-switch-when="en">{{titulo.numvoo.en}}</div>
+            </a><a data-ng-show="sortBy=='horavoo'" data-ng-click="sortBy=''" class="glyphicon rio-gig-x"></a>	
+          </th>
+          <th class="col-xs-1 col-sm-1">
+            <a data-ng-click="sortBy='terminal'; reverse=!reverse" role="button">
+            <div class="animate-switch" ng-switch-default>{{titulo.terminal.pt}}</div>
+            <div class="animate-switch" ng-switch-when="en">{{titulo.terminal.en}}</div>
+            </a><a data-ng-show="sortBy=='horavoo'" data-ng-click="sortBy=''" class="glyphicon rio-gig-x"></a>
+          </th>
+          <th class="col-xs-1 col-sm-1">
+            <a data-ng-click="sortBy='portao'; reverse=!reverse" role="button">
+            <div class="animate-switch" ng-switch-default>{{titulo.portao.pt}}</div>
+            <div class="animate-switch" ng-switch-when="en">{{titulo.portao.en}}</div>
+            </a><a data-ng-show="sortBy=='horavoo'" data-ng-click="sortBy=''" class="glyphicon rio-gig-x"></a>
+          </th>							
+          <th class="col-xs-2 col-sm-2">
+            <a class="" data-ng-click="sortBy='horaestimada'; reverse=!reverse" role="button">
+            <div class="animate-switch" ng-switch-default>{{titulo.horaestimada.pt}}</div>
+            <div class="animate-switch" ng-switch-when="en">{{titulo.horaestimada.en}}</div>
+            </a><a data-ng-show="sortBy=='horavoo'" data-ng-click="sortBy=''" class="glyphicon rio-gig-x"></a>
+          </th>
+          <th class="col-xs-2 col-sm-2">
+            <a data-ng-click="sortBy='status'; reverse=!reverse" role="button">
+            <div class="animate-switch" ng-switch-default>{{titulo.status.pt}}</div>
+            <div class="animate-switch" ng-switch-when="en">{{titulo.status.en}}</div>
+            </a><a data-ng-show="sortBy=='horavoo'" data-ng-click="sortBy=''" class="glyphicon rio-gig-x"></a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>			
+        <tr data-ng-repeat="item in listViewItems | filter: filter | orderBy:sortBy:reverse" data-ng-class="{active : isSelected(item)}" class="line">							  
+            <td data-toggle="modal" data-target="#myModal">{{item.horavoo | horaFormat}}</td>				
+            <td data-toggle="modal" data-target="#myModal">{{item.destino}}</td>				
+            <td data-toggle="modal" class="ciaaerea" data-target="#myModal" data-ng-style="{'background-image': 'url(./images/ciasaereas/'+item.ciaaerea+')'}" ></td>
+            <td data-toggle="modal" data-target="#myModal">{{item.numerovoo}}</td>
+            <td data-toggle="modal" data-target="#myModal">{{item.terminal}}</td>
+            <td data-toggle="modal" data-target="#myModal">{{item.portao}}</td>
+            <td data-toggle="modal" data-target="#myModal">{{item.horaestimada | horaFormat}}</td>
+            <td class="title animate-switch-container" ng-switch on="selectedLang">              
+                  <div class="animate-switch" ng-switch-when="es">{{item.status.es}}</div>
+                  <div class="animate-switch" ng-switch-when="en">{{item.status.en}}</div>
+                  <div class="animate-switch" ng-switch-default>{{item.status.pt}}</div>              
+            </td>
+        </tr>			
+      </tbody>
+      </table>
+      <div class="panel-footer footer">
+          <div class="row">
+            <div class="col-xs-6 col-md-6" align="left">            
+              <h4><div change-current-language="" selected-item="selectedLang" model="$parent.selectedLang" ></div></h4>
+            </div>            
+            <div class="col-xs-6 col-md-6" align="right">                        	
+              <img class="img-responsive" src="images/footer.png" alt="">            
+            </div>
+          </div>
+      </div>
+  </div>
+   	
+                
+    <script src="./javascripts/jquery.min.js"></script>
+    <script src="./javascripts/bootstrap.min.js"></script>
+    <script src="./javascripts/fm.selectator.jquery.js"></script>
+    
+    <!-- Angular JS scripts -->
+    <script src="./javascripts/angularjs/1.3.0/angular.min.js"></script>    
+    <script src="./javascripts/angularjs/1.3.0/angular-resource.min.js"></script>
+    <script src="./javascripts/angularjs/1.3.0/angular-animate.min.js"></script>
+    <script src="./javascripts/angularjs/1.3.0/angular-route.min.js"></script>
+    <script src="./javascripts/angularjs/1.3.0/angular-touch.js"></script>
+    
+    <!-- Angular JS Custom scripts -->	
+    <script src= "./javascripts/indexeddb.js"></script>
+    <script src= "./javascripts/app.js"></script>
+    <script src= "./javascripts/controllers.js"></script>
+    <script src= "./javascripts/filters.js"></script>
+
+    <!-- Login Overlay modal-->
+	
+    <div class="modal fade" id="config-overlay" tabindex="-1" role="dialog" aria-labelledby="config-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">	
+    <div class="modal-content">
+    <div class="modal-header">			
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h4 class="modal-title" id="myModalLabel">Configurações</h4>
+    </div>
+    <div class="modal-body">
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well">
+    <div class="table-responsive">
+    <table class="table table-striped">
+    <thead>
+    <tr>	
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-repeat="item in listViewItems | orderBy: sortBy">				
+    </tr>
+    </tbody>
+    </table>				
+    <a href="#"  data-toggle="modal" data-target="#AddItem-overlay" class="btn btn-success btn-block"><i class="fa fa-cogs fa-fw"></i>&nbsp; Novo Item</a>
+    </div><!-- Table -->
+    </div><!-- well -->
+    </div><!-- col-xs-12 -->		  
+    </div><!-- row -->
+    </div><!-- modal-body -->
+    </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+    </div><!-- modal -->
+    
+    
+</body>
+</html>

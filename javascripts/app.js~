@@ -1,0 +1,27 @@
+/* global angular,window */
+var dashboardDbApp = angular.module('dashboardDbApp', ['ngTouch', 'ngRoute', 'ngResource', 'dashboardDbControllers', 'dashboardFilters']);
+
+dashboardDbApp.config(['$routeProvider', '$locationProvider', 
+	function($routeProvider ,$locationProvider)
+	{			
+		$routeProvider.
+			when('/', {
+				//templateUrl: 'partials/index.html',
+				controller: 'DashboardCtrl'			
+			}).
+			when('/config', {  
+				//templateUrl: 'partials/config.html',
+				controller: 'ConfigCtrl'			
+			}).						
+			when('/unsupported', {
+				templateUrl: 'partials/unsupported.html'
+			}).
+			otherwise({
+				redirectTo: '/'
+			});
+			
+		$locationProvider.html5Mode(true).hashPrefix('!');
+		
+	}
+]);
+
